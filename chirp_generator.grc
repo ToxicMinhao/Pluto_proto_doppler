@@ -1,0 +1,99 @@
+options:
+  parameters:
+    author: ''
+    catch_exceptions: 'True'
+    category: '[GRC Hier Blocks]'
+    cmake_opt: ''
+    comment: ''
+    copyright: ''
+    description: ''
+    gen_cmake: 'On'
+    gen_linking: dynamic
+    generate_options: qt_gui
+    hier_block_src_path: '.:'
+    id: untitled
+    max_nouts: '0'
+    output_language: python
+    placement: (0,0)
+    qt_qss_theme: ''
+    realtime_scheduling: ''
+    run: 'True'
+    run_command: '{python} -u {filename}'
+    run_options: prompt
+    sizing_mode: fixed
+    thread_safe_setters: ''
+    title: Not titled yet
+    window_size: (1000,1000)
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [8, 8]
+    rotation: 0
+    state: enabled
+
+blocks:
+- name: samp_rate
+  id: variable
+  parameters:
+    comment: ''
+    value: '32000'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [184, 12]
+    rotation: 0
+    state: enabled
+- name: epy_block_0
+  id: epy_block
+  parameters:
+    _source_code: "import numpy as np\nfrom gnuradio import gr\n\nclass signal_source_chirp(gr.sync_block):\n\
+      \    \"\"\"\n    A Python block that generates a linear chirp signal in GNU\
+      \ Radio.\n    \"\"\"\n    def __init__(self, samp_rate = 1, start_freq = 0,\
+      \ end_freq = 0, duration = 1, amplitude = 0, offset = 0, initial_phase = 0):\n\
+      \        gr.sync_block.__init__(\n            self,\n            name='Signal\
+      \ Source Chirp',  # Block name\n            in_sig=None,                # No\
+      \ input signal\n            out_sig=[np.complex64]      # Output signal type\
+      \ is complex\n        )\n        # Initialize block parameters\n        self.samp_rate\
+      \ = samp_rate\n        self.start_freq = start_freq\n        self.end_freq =\
+      \ end_freq\n        self.amplitude = amplitude\n        self.offset = offset\n\
+      \        self.initial_phase = initial_phase\n        self.duration = duration\n\
+      \        self.num_samples = int(duration * samp_rate)\n        self.frequency_slope\
+      \ = (end_freq - start_freq) / self.num_samples\n        self.phase = initial_phase\n\
+      \        self.sample_count = 0\n\n    def work(self, input_items, output_items):\n\
+      \        # Generate the chirp waveform\n        t = np.arange(self.sample_count,\
+      \ self.sample_count + len(output_items[0]))\n        freq_t = self.start_freq\
+      \ + self.frequency_slope * t\n        phase_t = 2 * np.pi * (self.start_freq\
+      \ * t + 0.5 * self.frequency_slope * t**2) / self.samp_rate + self.initial_phase\n\
+      \        output_items[0][:] = self.amplitude * np.exp(1j * phase_t) + self.offset\n\
+      \        self.sample_count += len(output_items[0])\n        return len(output_items[0])"
+    affinity: ''
+    alias: ''
+    amplitude: '1'
+    comment: ''
+    duration: '100'
+    end_freq: '500'
+    initial_phase: '0'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    offset: '0'
+    samp_rate: samp_rate
+    start_freq: '1000'
+  states:
+    _io_cache: ('Signal Source Chirp', 'signal_source_chirp', [('samp_rate', '1'),
+      ('start_freq', '0'), ('end_freq', '0'), ('duration', '1'), ('amplitude', '0'),
+      ('offset', '0'), ('initial_phase', '0')], [], [('0', 'complex', 1)], '\n    A
+      Python block that generates a linear chirp signal in GNU Radio.\n    ', ['amplitude',
+      'duration', 'end_freq', 'initial_phase', 'offset', 'samp_rate', 'start_freq'])
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [584, 264.0]
+    rotation: 0
+    state: enabled
+connections: []
+
+metadata:
+  file_format: 1
+  grc_version: 3.10.9.2
