@@ -1,0 +1,817 @@
+options:
+  parameters:
+    author: ''
+    catch_exceptions: 'True'
+    category: '[GRC Hier Blocks]'
+    cmake_opt: ''
+    comment: ''
+    copyright: ''
+    description: ''
+    gen_cmake: 'On'
+    gen_linking: dynamic
+    generate_options: qt_gui
+    hier_block_src_path: '.:'
+    id: pluto_5G5_test
+    max_nouts: '0'
+    output_language: python
+    placement: (0,0)
+    qt_qss_theme: ''
+    realtime_scheduling: ''
+    run: 'True'
+    run_command: '{python} -u {filename}'
+    run_options: prompt
+    sizing_mode: fixed
+    thread_safe_setters: ''
+    title: Pluto 5.5 GHz Test
+    window_size: (1000,1000)
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [8, 4.0]
+    rotation: 0
+    state: enabled
+
+blocks:
+- name: deci
+  id: variable
+  parameters:
+    comment: ''
+    value: '50'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [800, 8.0]
+    rotation: 0
+    state: enabled
+- name: doppler_gain
+  id: variable_qtgui_range
+  parameters:
+    comment: ''
+    gui_hint: ''
+    label: ''
+    min_len: '200'
+    orient: QtCore.Qt.Horizontal
+    rangeType: float
+    start: '0'
+    step: '1'
+    stop: '100'
+    value: '40'
+    widget: counter_slider
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [640, 12.0]
+    rotation: 0
+    state: enabled
+- name: samp_rate
+  id: variable
+  parameters:
+    comment: ''
+    value: '2000000'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [232, 8.0]
+    rotation: 0
+    state: enabled
+- name: switch_1
+  id: variable
+  parameters:
+    comment: ''
+    value: '0'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [896, 8.0]
+    rotation: 0
+    state: enabled
+- name: tone_freq
+  id: variable
+  parameters:
+    comment: ''
+    value: '500'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [360, 8.0]
+    rotation: 0
+    state: enabled
+- name: tx_gain
+  id: variable_qtgui_range
+  parameters:
+    comment: ''
+    gui_hint: 0, 0, 1, 1
+    label: ''
+    min_len: '200'
+    orient: QtCore.Qt.Horizontal
+    rangeType: float
+    start: '0'
+    step: '1'
+    stop: '89'
+    value: '40'
+    widget: counter_slider
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [480, 12.0]
+    rotation: 0
+    state: enabled
+- name: analog_sig_source_x_0
+  id: analog_sig_source_x
+  parameters:
+    affinity: ''
+    alias: ''
+    amp: '1'
+    comment: ''
+    freq: '500'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    offset: '0'
+    phase: '0'
+    samp_rate: samp_rate
+    showports: 'False'
+    type: complex
+    waveform: analog.GR_COS_WAVE
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [32, 168.0]
+    rotation: 0
+    state: enabled
+- name: band_pass_filter_0
+  id: band_pass_filter
+  parameters:
+    affinity: ''
+    alias: ''
+    beta: '6.76'
+    comment: ''
+    decim: deci
+    gain: '1'
+    high_cutoff_freq: '700'
+    interp: '1'
+    low_cutoff_freq: '300'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    samp_rate: samp_rate
+    type: fir_filter_ccf
+    width: '250'
+    win: window.WIN_HAMMING
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [432, 516.0]
+    rotation: 0
+    state: enabled
+- name: band_reject_filter_0
+  id: band_reject_filter
+  parameters:
+    affinity: ''
+    alias: ''
+    beta: '6.76'
+    comment: ''
+    decim: '1'
+    gain: '1'
+    high_cutoff_freq: tone_freq+5
+    interp: '1'
+    low_cutoff_freq: tone_freq-5
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    samp_rate: samp_rate/50
+    type: fir_filter_ccf
+    width: '5'
+    win: window.WIN_HAMMING
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [696, 516.0]
+    rotation: 0
+    state: enabled
+- name: blocks_complex_to_mag_1
+  id: blocks_complex_to_mag
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    vlen: '1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1416, 856.0]
+    rotation: 0
+    state: enabled
+- name: blocks_complex_to_mag_1_0
+  id: blocks_complex_to_mag
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    vlen: '1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1440, 1288.0]
+    rotation: 0
+    state: enabled
+- name: blocks_multiply_conjugate_cc_0
+  id: blocks_multiply_conjugate_cc
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    vlen: '1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [432, 964.0]
+    rotation: 0
+    state: enabled
+- name: blocks_multiply_const_vxx_0
+  id: blocks_multiply_const_vxx
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    const: doppler_gain
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    type: complex
+    vlen: '1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [840, 828.0]
+    rotation: 0
+    state: enabled
+- name: blocks_selector_0
+  id: blocks_selector
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    enabled: 'True'
+    input_index: switch_1
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    num_inputs: '2'
+    num_outputs: '1'
+    output_index: '0'
+    showports: 'True'
+    type: complex
+    vlen: '1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [464, 188.0]
+    rotation: 0
+    state: enabled
+- name: blocks_selector_1
+  id: blocks_selector
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    enabled: 'True'
+    input_index: '0'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    num_inputs: '1'
+    num_outputs: '2'
+    output_index: switch_1
+    showports: 'True'
+    type: complex
+    vlen: '1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [104, 884.0]
+    rotation: 0
+    state: enabled
+- name: blocks_stream_to_vector_0
+  id: blocks_stream_to_vector
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    num_items: '8192'
+    type: complex
+    vlen: '1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [992, 592.0]
+    rotation: 0
+    state: enabled
+- name: blocks_stream_to_vector_0_0
+  id: blocks_stream_to_vector
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    num_items: '8192'
+    type: complex
+    vlen: '1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [984, 1008.0]
+    rotation: 0
+    state: enabled
+- name: blocks_vector_to_stream_0
+  id: blocks_vector_to_stream
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    num_items: '8192'
+    type: complex
+    vlen: '1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1288, 584.0]
+    rotation: 0
+    state: enabled
+- name: blocks_vector_to_stream_0_0
+  id: blocks_vector_to_stream
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    num_items: '8192'
+    type: complex
+    vlen: '1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1280, 1008.0]
+    rotation: 0
+    state: enabled
+- name: epy_block_0
+  id: epy_block
+  parameters:
+    _source_code: "import numpy as np\nfrom gnuradio import gr\n\n\nclass doppler_velocity_calc(gr.sync_block):\n\
+      \    \"\"\"\n    A custom GNU Radio block to calculate velocity from a simulated\
+      \ frequency shift.\n\n    Attributes:\n        transmitted_freq (float): The\
+      \ frequency of the transmitted signal in Hz.\n        speed_of_light (float):\
+      \ The speed of light in meters per second, typically 3e8.\n    \"\"\"\n    def\
+      \ __init__(self, transmitted_freq=500, speed_of_light=3e8, samp_rate=40000,\
+      \ fft_size = 8192, carrier_freq=3.5e9):\n        gr.sync_block.__init__(self,\
+      \ name=\"doppler_velocity_calc\", in_sig=[np.float32], out_sig=[np.float32])\n\
+      \        self.transmitted_freq = transmitted_freq\n        self.speed_of_light\
+      \ = speed_of_light\n        self.samp_rate = samp_rate\n        self.fft_size\
+      \ = fft_size\n        self.carrier_freq = carrier_freq\n\n    def work(self,\
+      \ input_items, output_items):\n        in0 = input_items[0]\n        out = output_items[0]\n\
+      \        part_of_in0 = in0[4050:8192]\n        input_max = np.argmax(part_of_in0)\n\
+      \        frequency_bin_width = self.samp_rate / self.fft_size\n        if np.max(part_of_in0)\
+      \ < 50:\n            out[:] = 0\n            #print(\"start frame\")\n     \
+      \       #print('index of max:', input_max)\n            #print('value of max:',\
+      \ part_of_in0[input_max])\n            #print('bin width:', frequency_bin_width)\n\
+      \            #print('length of input stream:', len(in0))\n            #print('velocity:',\
+      \ out)\n            #print(\"end frame\")\n        else: \n            delta_f\
+      \ = (input_max - (4198-4050)) * frequency_bin_width\n            velocity =\
+      \ (delta_f * self.speed_of_light) / (2*self.carrier_freq)\n            out[:]\
+      \ = velocity\n            #print(\"start frame\")\n            #print('index\
+      \ of max:', input_max)\n            #print('value of max:', part_of_in0[input_max])\n\
+      \            #print('bin width:', frequency_bin_width)\n            #print('length\
+      \ of input stream:', len(in0))\n            #print('velocity:', out)\n     \
+      \       #print(\"end frame\")\n\n        return len(output_items[0])"
+    affinity: ''
+    alias: ''
+    carrier_freq: '3500000000'
+    comment: ''
+    fft_size: '8192'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    samp_rate: '40000'
+    speed_of_light: '300000000.0'
+    transmitted_freq: '500'
+  states:
+    _io_cache: '(''doppler_velocity_calc'', ''doppler_velocity_calc'', [(''transmitted_freq'',
+      ''500''), (''speed_of_light'', ''300000000.0''), (''samp_rate'', ''40000''),
+      (''fft_size'', ''8192''), (''carrier_freq'', ''3500000000.0'')], [(''0'', ''float'',
+      1)], [(''0'', ''float'', 1)], ''\n    A custom GNU Radio block to calculate
+      velocity from a simulated frequency shift.\n\n    Attributes:\n        transmitted_freq
+      (float): The frequency of the transmitted signal in Hz.\n        speed_of_light
+      (float): The speed of light in meters per second, typically 3e8.\n    '', [''carrier_freq'',
+      ''fft_size'', ''samp_rate'', ''speed_of_light'', ''transmitted_freq''])'
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1568, 524.0]
+    rotation: 0
+    state: enabled
+- name: epy_block_0_0
+  id: epy_block
+  parameters:
+    _source_code: "import numpy as np\nfrom gnuradio import gr\n\n\nclass Distance_calc(gr.sync_block):\n\
+      \    \"\"\"\n    A custom GNU Radio block to calculate velocity from a simulated\
+      \ frequency shift.\n\n    Attributes:\n        transmitted_freq (float): The\
+      \ frequency of the transmitted signal in Hz.\n        speed_of_light (float):\
+      \ The speed of light in meters per second, typically 3e8.\n    \"\"\"\n    def\
+      \ __init__(self, slope=500, speed_of_light=3e8, samp_rate=40000, fft_size =\
+      \ 8192):\n        gr.sync_block.__init__(self, name=\"Distance_calc\", in_sig=[np.float32],\
+      \ out_sig=[np.float32])\n        self.slope = slope\n        self.speed_of_light\
+      \ = speed_of_light\n        self.samp_rate = samp_rate\n        self.fft_size\
+      \ = fft_size\n\n    def work(self, input_items, output_items):\n        in0\
+      \ = input_items[0]\n        out = output_items[0]\n        input_max = np.argmax(in0)\n\
+      \        frequency_bin_width = self.samp_rate / self.fft_size\n        delta_f\
+      \ = (input_max - 4095) * frequency_bin_width\n        distance = np.abs(self.slope\
+      \ * delta_f * (self.speed_of_light / 2))\n        out[:] = distance\n      \
+      \  return len(output_items[0])"
+    affinity: ''
+    alias: ''
+    comment: ''
+    fft_size: '8192'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    samp_rate: '40000'
+    slope: '2.5627e-4'
+    speed_of_light: '300000000.0'
+  states:
+    _io_cache: '(''Distance_calc'', ''Distance_calc'', [(''slope'', ''500''), (''speed_of_light'',
+      ''300000000.0''), (''samp_rate'', ''40000''), (''fft_size'', ''8192'')], [(''0'',
+      ''float'', 1)], [(''0'', ''float'', 1)], ''\n    A custom GNU Radio block to
+      calculate velocity from a simulated frequency shift.\n\n    Attributes:\n        transmitted_freq
+      (float): The frequency of the transmitted signal in Hz.\n        speed_of_light
+      (float): The speed of light in meters per second, typically 3e8.\n    '', [''fft_size'',
+      ''samp_rate'', ''slope'', ''speed_of_light''])'
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1592, 960.0]
+    rotation: 0
+    state: enabled
+- name: epy_block_0_1
+  id: epy_block
+  parameters:
+    _source_code: "import numpy as np\nfrom gnuradio import gr\n\nclass signal_source_repeating_chirp(gr.sync_block):\n\
+      \    \"\"\"\n    A Python block that generates a repeating linear chirp signal\
+      \ in GNU Radio.\n    \"\"\"\n    def __init__(self, samp_rate = 1, start_freq\
+      \ = 0, end_freq = 0, duration = 1, amplitude = 0, offset = 0, initial_phase\
+      \ = 0):\n        gr.sync_block.__init__(\n            self,\n            name='Signal\
+      \ Source Repeating Chirp',  # Block name\n            in_sig=None,         \
+      \                  # No input signal\n            out_sig=[np.complex64]   \
+      \              # Output signal type is complex\n        )\n        # Initialize\
+      \ block parameters\n        self.samp_rate = samp_rate\n        self.start_freq\
+      \ = start_freq\n        self.end_freq = end_freq\n        self.amplitude = amplitude\n\
+      \        self.offset = offset\n        self.initial_phase = initial_phase\n\
+      \        self.duration = duration\n        self.num_samples = int(duration *\
+      \ samp_rate)\n        self.frequency_slope = (end_freq - start_freq) / self.num_samples\n\
+      \        self.phase = initial_phase\n        self.sample_count = 0\n       \
+      \ \n    def work(self, input_items, output_items):\n        out = output_items[0]\n\
+      \        for i in range(len(out)):\n            current_sample = self.sample_count\
+      \ % self.num_samples\n            phase_t = (2 * np.pi * (self.start_freq *\
+      \ current_sample + 0.5 * self.frequency_slope * current_sample**2) / self.samp_rate)\
+      \ + self.initial_phase\n            \n            out[i] = self.amplitude *\
+      \ np.exp(1j * phase_t) + self.offset\n            self.sample_count += 1\n \
+      \   \n            # When completing a chirp cycle, update initial_phase for\
+      \ smooth transition\n            if current_sample == self.num_samples - 1:\n\
+      \                self.initial_phase = phase_t % (2 * np.pi)\n              \
+      \  self.sample_count = 0  # Optionally reset sample count for clarity, not strictly\
+      \ necessary\n\n        return len(out)\n\n"
+    affinity: ''
+    alias: ''
+    amplitude: '1'
+    comment: ''
+    duration: '10'
+    end_freq: '10000'
+    initial_phase: '0'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    offset: '0'
+    samp_rate: samp_rate
+    start_freq: '5000'
+  states:
+    _io_cache: ('Signal Source Repeating Chirp', 'signal_source_repeating_chirp',
+      [('samp_rate', '1'), ('start_freq', '0'), ('end_freq', '0'), ('duration', '1'),
+      ('amplitude', '0'), ('offset', '0'), ('initial_phase', '0')], [], [('0', 'complex',
+      1)], '\n    A Python block that generates a repeating linear chirp signal in
+      GNU Radio.\n    ', ['amplitude', 'duration', 'end_freq', 'initial_phase', 'offset',
+      'samp_rate', 'start_freq'])
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [32, 368.0]
+    rotation: 0
+    state: enabled
+- name: epy_block_1
+  id: epy_block
+  parameters:
+    _source_code: "import numpy as np\nfrom gnuradio import gr\n\n\nclass average_speed(gr.sync_block):\
+      \ \n    def __init__(self, target_points = 262144):  \n        gr.sync_block.__init__(self,\
+      \ name='average_speed', in_sig=[np.float32], out_sig=[np.float32])\n       \
+      \ self.target_points = target_points\n\n\n    def work(self, input_items, output_items):\n\
+      \        in0 = input_items[0]\n        out = output_items[0]\n        accumulated_points\
+      \ = np.array([])\n        while accumulated_points.size < self.target_points:\n\
+      \            accumulated_points = np.concatenate((accumulated_points, in0))\n\
+      \        accumulated_points = accumulated_points[:self.target_points]\n    \
+      \    sum_of_points = np.sum(accumulated_points)\n        average = sum_of_points\
+      \ / self.target_points\n        accumulated_points = np.array([])\n        out[:]\
+      \ = average\n        return len(output_items[0])"
+    affinity: ''
+    alias: ''
+    comment: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    target_points: '262144'
+  states:
+    _io_cache: ('average_speed', 'average_speed', [('target_points', '262144')], [('0',
+      'float', 1)], [('0', 'float', 1)], '', ['target_points'])
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1688, 844.0]
+    rotation: 0
+    state: enabled
+- name: fft_vxx_0
+  id: fft_vxx
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    fft_size: '8192'
+    forward: 'True'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    nthreads: '1'
+    shift: 'True'
+    type: complex
+    window: window.blackmanharris(8192)
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1080, 796.0]
+    rotation: 0
+    state: enabled
+- name: fft_vxx_0_0
+  id: fft_vxx
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    fft_size: '8192'
+    forward: 'True'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    nthreads: '1'
+    shift: 'True'
+    type: complex
+    window: window.blackmanharris(8192)
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1072, 1212.0]
+    rotation: 0
+    state: enabled
+- name: qtgui_number_sink_0
+  id: qtgui_number_sink
+  parameters:
+    affinity: ''
+    alias: ''
+    autoscale: 'True'
+    avg: '0'
+    color1: ("black", "black")
+    color10: ("black", "black")
+    color2: ("black", "black")
+    color3: ("black", "black")
+    color4: ("black", "black")
+    color5: ("black", "black")
+    color6: ("black", "black")
+    color7: ("black", "black")
+    color8: ("black", "black")
+    color9: ("black", "black")
+    comment: ''
+    factor1: '1'
+    factor10: '1'
+    factor2: '1'
+    factor3: '1'
+    factor4: '1'
+    factor5: '1'
+    factor6: '1'
+    factor7: '1'
+    factor8: '1'
+    factor9: '1'
+    graph_type: qtgui.NUM_GRAPH_HORIZ
+    gui_hint: ''
+    label1: ''
+    label10: ''
+    label2: ''
+    label3: ''
+    label4: ''
+    label5: ''
+    label6: ''
+    label7: ''
+    label8: ''
+    label9: ''
+    max: '10'
+    min: '-10'
+    name: '""'
+    nconnections: '1'
+    type: float
+    unit1: ''
+    unit10: ''
+    unit2: ''
+    unit3: ''
+    unit4: ''
+    unit5: ''
+    unit6: ''
+    unit7: ''
+    unit8: ''
+    unit9: ''
+    update_time: '0.10'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1872, 536.0]
+    rotation: 0
+    state: enabled
+- name: qtgui_number_sink_1_0
+  id: qtgui_number_sink
+  parameters:
+    affinity: ''
+    alias: ''
+    autoscale: 'True'
+    avg: '0'
+    color1: ("black", "black")
+    color10: ("black", "black")
+    color2: ("black", "black")
+    color3: ("black", "black")
+    color4: ("black", "black")
+    color5: ("black", "black")
+    color6: ("black", "black")
+    color7: ("black", "black")
+    color8: ("black", "black")
+    color9: ("black", "black")
+    comment: ''
+    factor1: '1'
+    factor10: '1'
+    factor2: '1'
+    factor3: '1'
+    factor4: '1'
+    factor5: '1'
+    factor6: '1'
+    factor7: '1'
+    factor8: '1'
+    factor9: '1'
+    graph_type: qtgui.NUM_GRAPH_HORIZ
+    gui_hint: ''
+    label1: ''
+    label10: ''
+    label2: ''
+    label3: ''
+    label4: ''
+    label5: ''
+    label6: ''
+    label7: ''
+    label8: ''
+    label9: ''
+    max: '10'
+    min: '-10'
+    name: '""'
+    nconnections: '1'
+    type: float
+    unit1: ''
+    unit10: ''
+    unit2: ''
+    unit3: ''
+    unit4: ''
+    unit5: ''
+    unit6: ''
+    unit7: ''
+    unit8: ''
+    unit9: ''
+    update_time: '0.10'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1776, 1232.0]
+    rotation: 0
+    state: enabled
+- name: rational_resampler_xxx_0
+  id: rational_resampler_xxx
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    decim: '3'
+    fbw: '0'
+    interp: '1'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    taps: '[]'
+    type: ccc
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [760, 1232.0]
+    rotation: 0
+    state: enabled
+- name: soapy_plutosdr_sink_0
+  id: soapy_plutosdr_sink
+  parameters:
+    affinity: ''
+    alias: ''
+    bandwidth: '20000000'
+    center_freq: 3.5e9
+    comment: ''
+    dev_args: ''
+    gain: tx_gain
+    samp_rate: samp_rate
+    type: fc32
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [896, 240.0]
+    rotation: 0
+    state: enabled
+- name: soapy_plutosdr_source_0
+  id: soapy_plutosdr_source
+  parameters:
+    affinity: ''
+    agc: 'False'
+    alias: ''
+    bandwidth: '0.0'
+    center_freq: 3.5e9
+    comment: ''
+    dev_args: ''
+    gain: '64'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    samp_rate: samp_rate
+    type: fc32
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [32, 688.0]
+    rotation: 0
+    state: enabled
+
+connections:
+- [analog_sig_source_x_0, '0', blocks_selector_0, '0']
+- [band_pass_filter_0, '0', band_reject_filter_0, '0']
+- [band_reject_filter_0, '0', blocks_multiply_const_vxx_0, '0']
+- [blocks_complex_to_mag_1, '0', epy_block_0, '0']
+- [blocks_complex_to_mag_1_0, '0', epy_block_0_0, '0']
+- [blocks_multiply_conjugate_cc_0, '0', rational_resampler_xxx_0, '0']
+- [blocks_multiply_const_vxx_0, '0', blocks_stream_to_vector_0, '0']
+- [blocks_selector_0, '0', soapy_plutosdr_sink_0, '0']
+- [blocks_selector_1, '0', band_pass_filter_0, '0']
+- [blocks_selector_1, '1', blocks_multiply_conjugate_cc_0, '0']
+- [blocks_stream_to_vector_0, '0', fft_vxx_0, '0']
+- [blocks_stream_to_vector_0_0, '0', fft_vxx_0_0, '0']
+- [blocks_vector_to_stream_0, '0', blocks_complex_to_mag_1, '0']
+- [blocks_vector_to_stream_0_0, '0', blocks_complex_to_mag_1_0, '0']
+- [epy_block_0, '0', epy_block_1, '0']
+- [epy_block_0_0, '0', qtgui_number_sink_1_0, '0']
+- [epy_block_0_1, '0', blocks_multiply_conjugate_cc_0, '1']
+- [epy_block_0_1, '0', blocks_selector_0, '1']
+- [epy_block_1, '0', qtgui_number_sink_0, '0']
+- [fft_vxx_0, '0', blocks_vector_to_stream_0, '0']
+- [fft_vxx_0_0, '0', blocks_vector_to_stream_0_0, '0']
+- [rational_resampler_xxx_0, '0', blocks_stream_to_vector_0_0, '0']
+- [soapy_plutosdr_source_0, '0', blocks_selector_1, '0']
+
+metadata:
+  file_format: 1
+  grc_version: 3.10.9.2
